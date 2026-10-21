@@ -62,6 +62,7 @@ vim.keymap.set("n", "<leader>v", function()
         else
             vim.cmd("terminal")
             vertical_term_buf = vim.api.nvim_get_current_buf()
+            vim.bo[vertical_term_buf].buflisted = false
         end
         vim.cmd("startinsert")
     end

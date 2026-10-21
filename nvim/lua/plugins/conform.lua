@@ -8,6 +8,9 @@ return {
             lua = { "stylua" },
         },
         formatters = {
+            black = {
+                prepend_args = { "--line-length", "120" },
+            },
             stylua = {
                 prepend_args = { "--indent-type", "Spaces", "--indent-width", "4" },
             },

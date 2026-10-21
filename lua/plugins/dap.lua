@@ -35,24 +35,37 @@ return {
                 args = { "-m", "debugpy.adapter" },
             }
 
-            dap.configurations.python = {
-                {
-                    type = "python",
-                    request = "launch",
-                    name = "Launch file",
-                    program = "${file}",
-                    cwd = function()
-                        return lspconfig_util.root_pattern("pyproject.toml", "setup.py", ".git")(vim.fn.expand("%:p"))
-                            or vim.fn.getcwd()
-                    end,
-                    env = function()
-                        local root = lspconfig_util.root_pattern("pyproject.toml", "setup.py", ".git")(
-                            vim.fn.expand("%:p")
-                        ) or vim.fn.getcwd()
-                        return { PYTHONPATH = root }
-                    end,
-                },
-            }
+	    local util = require("lspconfig.util")
+
+	    dap.configurations.python = {
+		{
+		    type = "python",
+		    request = "launch",
+		    name = "Launch current module",
+
+		    pythonPath = function()
+			return vim.fn.exepath("python")
+		    end,
+
+		    module = function()
+			local root = util.root_pattern(".git")(vim.fn.expand("%:p"))
+
+			if not root then
+			    error("Could not determine project root")
+			end
+
+			local file = vim.fn.expand("%:p")
+			local rel = file:gsub("^" .. vim.pesc(root .. "/"), "")
+
+			return rel:gsub("%.py$", ""):gsub("/", ".")
+		    end,
+
+		    cwd = function()
+			return util.root_pattern(".git")(vim.fn.expand("%:p"))
+			    or vim.fn.getcwd()
+		    end,
+		},
+	    }
 
             dapui.setup()
 

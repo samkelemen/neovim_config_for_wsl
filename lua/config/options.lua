@@ -5,17 +5,19 @@ vim.opt.relativenumber = true
 vim.opt.shiftwidth = 4
 vim.g.autoformat = false
 
+local win32yank = "/mnt/c/Users/skelemen/AppData/Local/Microsoft/WinGet/Packages/equalsraf.win32yank_Microsoft.Winget.Source_8wekyb3d8bbwe/win32yank.exe"
+
 -- Yank to the system clipboard
 vim.opt.clipboard = "unnamedplus"
 vim.g.clipboard = {
     name = "win32yank",
     copy = {
-        ["+"] = "win32yank.exe -i --crlf",
-        ["*"] = "win32yank.exe -i --crlf",
+        ["+"] = { win32yank, "-i", "--crlf" },
+        ["*"] = { win32yank, "-i", "--crlf" },
     },
     paste = {
-        ["+"] = "win32yank.exe -o --lf",
-        ["*"] = "win32yank.exe -o --lf",
+        ["+"] = { win32yank, "-o", "--lf" },
+        ["*"] = { win32yank, "-o", "--lf" },
     },
     cache_enabled = 0,
 }
@@ -29,7 +31,16 @@ vim.opt.autochdir = false
 -- Code folding via treesitter
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldenable = false -- don't fold on open
+vim.opt.foldtext = "" -- folded line keeps its syntax highlighting
+vim.opt.foldlevel = 99 -- everything open by default
+vim.opt.foldlevelstart = 99
+vim.opt.fillchars:append({
+    fold = " ",
+    foldopen = "\u{f078}", -- nf chevron-down
+    foldclose = "\u{f054}", -- nf chevron-right
+    foldsep = " ",
+    eob = " ",
+})
 
 -- Show full diagnostic messages inline
 vim.diagnostic.config({

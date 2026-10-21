@@ -9,5 +9,15 @@ return {
         -- bonus: makes opening large/binary files faster
         bigfile = { enabled = true },
         quickfile = { enabled = true },
+        -- VS Code-style fold chevrons in the gutter
+        statuscolumn = {
+            enabled = true,
+            left = { "mark", "sign" },
+            right = { "fold", "git" },
+            folds = {
+                open = true, -- show icon on open folds too
+                git_hl = false,
+            },
+        },
     },
 }
