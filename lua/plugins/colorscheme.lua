@@ -9,6 +9,8 @@ return {
                 ["Comment"] = { fg = "#8b95a7" },
                 ["@comment"] = { fg = "#8b95a7" },
                 ["@lsp.type.comment"] = { fg = "#8b95a7" },
+                -- `# TODO:` / `// TODO:` comments (see after/queries/{python,cpp}/highlights.scm)
+                ["@comment.todo.neon"] = { fg = "#00d9ff", fmt = "bold" },
             },
         })
         require("onedark").load()
